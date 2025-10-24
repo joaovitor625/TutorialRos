@@ -1,0 +1,16 @@
+# mkdocs.yml
+
+site_name: Tutorial Ros
+site_author: Joao Vitor
+
+theme:
+  name: readthedocs
+  palette:
+    primary: blue   # Cor primária (pode trocar)
+    accent: orange  # Cor de destaque (pode trocar)
+  features:
+  - content.code.copy # Cria o botão de copiar comandos
+
+nav:
+  - 'Início': 'index.md'
+  - 'Lidar Sick': 'lidar.md'
