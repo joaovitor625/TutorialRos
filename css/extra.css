@@ -1,0 +1,35 @@
+/* docs/css/extra.css */
+
+/* Torna o container do bloco de código 'relative' */
+/* para que o botão possa ser posicionado 'absolute' dentro dele */
+.code-block-wrapper {
+  position: relative;
+}
+
+/* Estiliza e posiciona o botão de cópia */
+.copy-code-button {
+  position: absolute;
+  top: 0.5em;       /* 0.5em da borda superior */
+  right: 0.5em;     /* 0.5em da borda direita */
+  
+  padding: 4px 8px;
+  font-size: 0.8em;
+  color: #333;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  /* Esconde o botão por padrão */
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Mostra o botão quando o usuário passa o mouse sobre o bloco de código */
+.code-block-wrapper:hover .copy-code-button {
+  opacity: 1;
+}
+
+.copy-code-button:hover {
+  background-color: #ddd;
+}
