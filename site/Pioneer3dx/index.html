@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Joao Vitor" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Robô Pioneer - Tutorial Ros</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Rob\u00f4 Pioneer";
+        var mkdocs_page_input_path = "Pioneer3dx.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../img/logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Início</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="../Mv.md">Máquina Virtual</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Robô Pioneer</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#arquitetura-do-robo">Arquitetura do Robô</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#passo-1-acessando-o-computador-do-robo">Passo 1: Acessando o Computador do Robô</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#metodo-1-via-ssh-recomendado">Método 1: Via SSH (Recomendado)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#metodo-2-acesso-fisico-via-terminal">Método 2: Acesso Físico (Via Terminal)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#passo-2-iniciando-o-driver-rosaria">Passo 2: Iniciando o Driver RosAria</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alternativa-controle-por-computador-externo-via-usb">Alternativa: Controle por Computador Externo (Via USB)</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../lidar/">Lidar slamtec</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Braco/">Braço Robótico</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Tutorial Ros</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Robô Pioneer</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="robo-pioneer-3-dx">Robô Pioneer 3-DX</h1>
+<p><img alt="Pioneer 3-DX no laboratório" src="../img/robo.jpg" /></p>
+<p>O robô disponível no laboratório é um <strong>Pioneer 3-DX</strong>, um robô móvel de tração diferencial, como o mostrado na imagem acima.</p>
+<hr />
+<h2 id="arquitetura-do-robo">Arquitetura do Robô</h2>
+<p>O robô possui uma arquitetura de computação dupla:</p>
+<ul>
+<li><strong>Microcontrolador (Aria):</strong> É o cérebro de "baixo nível". Ele roda um sistema operacional embarcado chamado <strong>Aria</strong> e é responsável pelo controle direto dos motores (rodas), obtenção da pose e leitura de sonares.</li>
+<li><strong>Computador Interno:</strong> É o cérebro de "alto nível". É um computador rodando <strong>Ubuntu Server 12.04</strong>, que por sua vez possui o <strong>ROS1 (Hydro Medusa)</strong> instalado.</li>
+</ul>
+<blockquote>
+<p><strong>Por que ROS1 e não ROS2?</strong>
+A comunicação entre o ROS e o sistema Aria é feita por um pacote chamado <code>RosAria</code>. Este pacote foi desenvolvido apenas para ROS1. Como esses robôs são considerados legados, não houve um esforço da comunidade para portar o driver para o ROS2.</p>
+</blockquote>
+<hr />
+<h2 id="passo-1-acessando-o-computador-do-robo">Passo 1: Acessando o Computador do Robô</h2>
+<p>Para enviar comandos para o robô, você primeiro precisa se conectar ao computador interno dele. Existem duas formas principais de fazer isso.</p>
+<h3 id="metodo-1-via-ssh-recomendado">Método 1: Via SSH (Recomendado)</h3>
+<p>SSH é um protocolo de rede que permite controlar um computador remotamente de forma segura.</p>
+<ol>
+<li>Garanta que seu computador e o robô estejam conectados à <strong>mesma rede Wi-Fi</strong>.</li>
+<li>Abra um terminal no seu computador e digite o seguinte comando (substitua pelo IP correto do robô, se necessário):</li>
+</ol>
+<pre><code class="language-bash">ssh root@192.168.1.100
+</code></pre>
+<ol>
+<li>Será solicitada uma senha. A senha padrão do robô é: <code>Expertinos</code></li>
+</ol>
+<p>Após isso, você estará dentro do terminal do computador do robô e pronto para o próximo passo.</p>
+<h3 id="metodo-2-acesso-fisico-via-terminal">Método 2: Acesso Físico (Via Terminal)</h3>
+<p>Você também pode conectar um monitor e um teclado diretamente nas portas do computador interno do robô. Esta é uma forma de acesso direto, útil se a rede Wi-Fi estiver com problemas.</p>
+<hr />
+<h2 id="passo-2-iniciando-o-driver-rosaria">Passo 2: Iniciando o Driver RosAria</h2>
+<p>Uma vez que você esteja <strong>dentro do terminal do robô</strong> (seja via SSH ou Acesso Físico), você pode iniciar o nó do ROS que faz a ponte com o microcontrolador.</p>
+<p>Execute o seguinte comando no terminal <em>do robô</em>:</p>
+<pre><code class="language-bash">rosrun rosaria RosAria _port:=/dev/ttyS0 _baud:=9600
+</code></pre>
+<ul>
+<li><strong>O que esse comando faz?</strong> Ele inicia o driver <code>RosAria</code>, que começa a escutar os comandos do ROS e a traduzi-los para o microcontrolador (Aria) através da porta serial interna do robô, a <code>/dev/ttyS0</code>.</li>
+</ul>
+<hr />
+<h2 id="alternativa-controle-por-computador-externo-via-usb">Alternativa: Controle por Computador Externo (Via USB)</h2>
+<p>Existe uma terceira forma de controlar o robô que <strong>ignora o computador interno dele</strong>.</p>
+<p>Neste método, você conecta o seu próprio computador/notebook (que deve ter o ROS1 instalado) diretamente na porta serial do robô, usando um conversor <strong>Serial-USB</strong>.</p>
+<ol>
+<li>Conecte o cabo Serial-USB do robô à porta USB do seu computador.</li>
+<li>(Opcional) Você pode precisar dar permissão à porta USB: <code>sudo chmod a+rw /dev/ttyUSB0</code></li>
+<li>Execute o seguinte comando no terminal do <strong>seu computador</strong>:</li>
+</ol>
+<pre><code class="language-bash">rosrun rosaria RosAria _port:=/dev/ttyUSB0 _baud:=9600
+</code></pre>
+<blockquote>
+<p><strong>Nota:</strong> Repare que a porta mudou. Em vez de <code>/dev/ttyS0</code> (a porta serial interna do robô), estamos usando <code>/dev/ttyUSB0</code>, que representa a porta USB do <em>seu</em> computador onde o robô está conectado.</p>
+</blockquote>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Início"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../lidar/" class="btn btn-neutral float-right" title="Lidar slamtec">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lidar/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/copy-code.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
