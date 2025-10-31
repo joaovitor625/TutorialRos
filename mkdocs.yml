@@ -4,13 +4,21 @@ site_name: Tutorial Ros
 site_author: Joao Vitor
 
 theme:
-  name: readthedocs
-  palette:
-    primary: blue   # Cor primária (pode trocar)
-    accent: orange  # Cor de destaque (pode trocar)
-  features:
-  - content.code.copy # Cria o botão de copiar comandos
+  name: readthedocs # Você queria este tema!
+  logo: 'img/logo.png'
+
+# Removemos 'palette' e 'features', pois não são do tema 'readthedocs'
 
 nav:
   - 'Início': 'index.md'
-  - 'Lidar Sick': 'lidar.md'
+  - 'Máquina Virtual': 'Mv.md'
+  - 'Robô Pioneer' : 'Pioneer3dx.md'
+  - 'Lidar slamtec': 'lidar.md'
+  - 'Braço Robótico': 'Braco.md'
+
+# Diz ao MkDocs para carregar nossos arquivos personalizados
+extra_css:
+  - css/extra.css
+
+extra_javascript:
+  - js/copy-code.js
