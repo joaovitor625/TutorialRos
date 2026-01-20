@@ -8,4 +8,6 @@ chmod a+rw /dev/ttyS1
 Agora precisamos inicializar o nó que lê os dados do sensor na porta serial, para isso utilize o seguinte comando:
 ```bash
 rosrun sicktoolbox_wrapper sicklms _port:=/dev/ttyS1
-```
+``` 
+
+**OBS:** Lembre de rodar o roscore.

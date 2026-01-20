@@ -13,7 +13,7 @@ nav:
   - 'Início': 'index.md'
   - 'Máquina Virtual': 'Mv.md'
   - 'Robô Pioneer' : 'Pioneer3dx.md'
-  - 'Lidar slamtec': 'lidar.md'
+  - 'Lidar Sick': 'lidar.md'
   - 'Braço Robótico': 'Braco.md'
 
 # Diz ao MkDocs para carregar nossos arquivos personalizados
